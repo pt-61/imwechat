@@ -21,12 +21,22 @@ qt_add_qml_module(appCommunity
     User/Avatar.qml
     Post/PostItem.qml
     Post/Icon.qml
+    Post/PostList.qml
+    Post/Post.qml
+    Post/WritePost.qml
+    User/InfoCard.qml
+    Post/Header.qml
 
     RESOURCES
     picture/default/headPortrait.jpg
     picture/icons/booktag.png picture/icons/comments.png
     picture/icons/export.png picture/icons/likes.png
     picture/icons/search.png picture/icons/share.png
+    picture/icons/back.png
+    picture/icons/picture.png
+
+    QML_FILES
+    scripts/TextUtils.js
 )
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.

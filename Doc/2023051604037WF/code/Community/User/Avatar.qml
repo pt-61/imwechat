@@ -7,9 +7,12 @@ import QtQuick
 import Qt5Compat.GraphicalEffects
 
 Item {
-    required property string img
+    default property string img: "picture/default/headPortrait.jpg"
     width: 50
     height: 50
+
+    signal entered
+    signal exited
 
     Image {
         id: avatar
@@ -31,6 +34,14 @@ Item {
         anchors.fill: parent
         source: avatar
         maskSource: mask
+    }
+
+    MouseArea {
+      anchors.fill: parent
+      hoverEnabled: true
+
+      onEntered: parent.entered()
+      onExited: parent.exited()
     }
 }
 

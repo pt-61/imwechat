@@ -5,14 +5,14 @@ import QtQuick
 import "../User"
 
 Rectangle{
-  id: post
+  id: postItem
   required property string avatarImg
   required property string userName
   required property string userEmail
   required property string postContent
 
   // required property var tags
-  required property date postDate
+  // required property date postDate
 
   required property int commentNum
   required property int shareNum
@@ -25,30 +25,8 @@ Rectangle{
   property int textHeight: 0
 
 
-  function calculateTextHeight() {
-      // 创建一个临时 Text 对象用于测量
-      var temp = Qt.createQmlObject('import QtQuick 2.15; Text { wrapMode: Text.Wrap; font.pixelSize: 16; }', post)
-      temp.text = postContent
-      temp.width = 240   // 帖子正文内容的宽度
-      temp.font.pixelSize = 16
-      temp.visible = false
-
-      // 每行高度
-      var lineHeight = temp.font.pixelSize * 1.2   // 粗略估计 1.2 倍行高
-      // 计算行数
-      var lines = Math.ceil(temp.paintedHeight / lineHeight)
-      if (lines > maxLines) lines = maxLines
-
-      textHeight = lines * lineHeight
-      temp.destroy()
-  }
-
-  Component.onCompleted: {
-    calculateTextHeight()
-  }
-
-  width: 300
-  height: 10 + name.height + 4 + textHeight + 4 + 24 + 4
+  width: 450
+  height: 10 + name.height + 4 + content.height + 4 + 24 + 4
 
   Avatar {
     id: avatar
@@ -62,7 +40,7 @@ Rectangle{
     id: name
     y: 10
     anchors.left: avatar.right
-    anchors.leftMargin: 4
+    anchors.leftMargin: 8
 
     text: userName
     font.pixelSize: 16
@@ -99,86 +77,66 @@ Rectangle{
     anchors.left: name.left
     anchors.top: name.bottom
     anchors.topMargin: 4
-    width: 240
-    height: parent.textHeight
+    width: parent.width-60
+    maximumLineCount: 10
 
     text: postContent
     wrapMode: Text.Wrap
-    font.pixelSize: 16
+    color: "#606060"
+    font.pixelSize: 14
     elide: Text.ElideRight
   }
 
 ///////////////////  data ///////////////////
-  Rectangle {
-    id: commment
-    anchors.left: parent.left
-    anchors.leftMargin: 30
-    anchors.top: content.bottom
-    anchors.topMargin: 4
-    anchors.bottom: parent.bottom
-    anchors.bottomMargin: 4
-    height: 24
-    width: 24 + 2 + commentNum.width
+  Icon {
+    id: commentIcon
+    anchors.left: parent.left;  anchors.leftMargin: 20
+    anchors.bottom: parent.bottom;  anchors.bottomMargin: 4
+    anchors.top: content.bottom;    anchors.topMargin: 4
 
-    Icon {
-      id: commentIcon
-      anchors.left: parent.left
-      anchors.verticalCenter: parent.verticalCenter
+    ico:"picture/icons/comments.png"
+  }
+  Text {
+    anchors.left: commentIcon.right
+    anchors.leftMargin: 2
+    anchors.verticalCenter: commentIcon.verticalCenter
 
-      ico:"picture/icons/comments.png"
-    }
-    Text {
-      anchors.left: commentIcon.right
-      anchors.leftMargin: 2
-      anchors.verticalCenter: parent.verticalCenter
-
-      text: commentNum
-    }
+    text: commentNum
   }
 
-  Rectangle {
-    id: share
+  Icon {
+    id: shareIcon
     anchors.horizontalCenter: parent.horizontalCenter
-    anchors.verticalCenter: commment.verticalCenter
-    height: 24
-    width: 24 + 2 + shareNum.width
-    Icon {
-      id: shareIcon
-      anchors.left: parent.left
-      anchors.verticalCenter: parent.verticalCenter
+    anchors.verticalCenter: commentIcon.verticalCenter
 
-      ico:"picture/icons/share.png"
-    }
-    Text {
-      anchors.left: shareIcon.right
-      anchors.leftMargin: 2
-      anchors.verticalCenter: parent.verticalCenter
+    ico:"picture/icons/share.png"
+  }
+  Text {
+    anchors.left: shareIcon.right
+    anchors.leftMargin: 2
+    anchors.verticalCenter: commentIcon.verticalCenter
 
-      text: shareNum
-    }
+    text: shareNum
   }
 
-  Rectangle {
-    id: likes
-    anchors.right: parent.right
-    anchors.rightMargin: 30
-    anchors.verticalCenter: commment.verticalCenter
-    height: 24
-    width: 24 + 2 + likesNum.width
-    Icon {
-      id: likesIcon
-      anchors.left: parent.left
-      anchors.verticalCenter: parent.verticalCenter
+  Icon {
+    id: likesIcon
+    anchors.right: parent.right;  anchors.rightMargin: 40
+    anchors.verticalCenter: commentIcon.verticalCenter
 
-      ico:"picture/icons/likes.png"
-    }
-    Text {
-      anchors.left: likesIcon.right
-      anchors.leftMargin: 2
-      anchors.verticalCenter: parent.verticalCenter
+    ico:"picture/icons/likes.png"
+  }
+  Text {
+    anchors.left: likesIcon.right
+    anchors.leftMargin: 2
+    anchors.verticalCenter: commentIcon.verticalCenter
 
-      text: likesNum
-    }
+    text: likesNum
+  }
+
+  color: hover.hovered ? "#f6f6f6" : "white"
+  HoverHandler {
+    id: hover
   }
 }
 
