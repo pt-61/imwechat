@@ -7429,7 +7429,7 @@
 													"top": 308,
 													"width": 62,
 													"height": 13,
-													"text": "处理事务"
+													"text": "管理社区"
 												},
 												{
 													"_type": "LabelView",
@@ -7440,7 +7440,7 @@
 													"visible": false,
 													"font": "Arial;13;0",
 													"parentStyle": true,
-													"width": 90.27001953125,
+													"width": 94.2626953125,
 													"height": 13,
 													"text": "(from 管理社区)"
 												},
@@ -7908,7 +7908,7 @@
 							"_parent": {
 								"$ref": "AAAAAAGaqylmPBXfcfw="
 							},
-							"name": "处理事务"
+							"name": "管理社区"
 						}
 					]
 				}
@@ -10867,7 +10867,7 @@
 															},
 															"font": "Arial;13;0",
 															"parentStyle": true,
-															"left": 184.72998046875,
+															"left": 185.3330078125,
 															"top": 13,
 															"width": 26,
 															"height": 13,
@@ -10883,7 +10883,7 @@
 															"parentStyle": true,
 															"left": 165,
 															"top": 13,
-															"width": 13.72998046875,
+															"width": 14.3330078125,
 															"height": 13,
 															"text": "sd"
 														}
@@ -11543,7 +11543,7 @@
 															"visible": false,
 															"font": "Arial;13;0",
 															"parentStyle": true,
-															"left": 533.07177734375,
+															"left": 536.41064453125,
 															"top": 229,
 															"height": 13
 														},
@@ -11557,7 +11557,7 @@
 															"parentStyle": true,
 															"left": 509,
 															"top": 229,
-															"width": 18.07177734375,
+															"width": 21.41064453125,
 															"height": 13,
 															"text": "opt"
 														},
@@ -18171,7 +18171,7 @@
 											"visible": false,
 											"font": "Arial;13;0",
 											"parentStyle": false,
-											"left": 276,
+											"left": 279,
 											"top": 539,
 											"height": 13,
 											"alpha": 1.5707963267948966,
@@ -18193,7 +18193,7 @@
 											"visible": null,
 											"font": "Arial;13;0",
 											"parentStyle": false,
-											"left": 276,
+											"left": 279,
 											"top": 554,
 											"height": 13,
 											"alpha": 1.5707963267948966,
@@ -18215,7 +18215,7 @@
 											"visible": false,
 											"font": "Arial;13;0",
 											"parentStyle": false,
-											"left": 277,
+											"left": 280,
 											"top": 509,
 											"height": 13,
 											"alpha": -1.5707963267948966,
@@ -20327,7 +20327,7 @@
 											"visible": false,
 											"font": "Arial;13;0",
 											"parentStyle": false,
-											"left": 428,
+											"left": 431,
 											"top": 483,
 											"height": 13,
 											"alpha": 1.5707963267948966,
@@ -20349,7 +20349,7 @@
 											"visible": null,
 											"font": "Arial;13;0",
 											"parentStyle": false,
-											"left": 428,
+											"left": 431,
 											"top": 498,
 											"height": 13,
 											"alpha": 1.5707963267948966,
@@ -20371,7 +20371,7 @@
 											"visible": false,
 											"font": "Arial;13;0",
 											"parentStyle": false,
-											"left": 429,
+											"left": 432,
 											"top": 453,
 											"height": 13,
 											"alpha": -1.5707963267948966,
@@ -20930,8 +20930,8 @@
 											},
 											"font": "Arial;13;0",
 											"parentStyle": false,
-											"left": 630,
-											"top": 530,
+											"left": 636,
+											"top": 533,
 											"width": 31.04638671875,
 											"height": 13,
 											"alpha": 1.5707963267948966,
@@ -20954,8 +20954,8 @@
 											"visible": null,
 											"font": "Arial;13;0",
 											"parentStyle": false,
-											"left": 654,
-											"top": 518,
+											"left": 660,
+											"top": 521,
 											"height": 13,
 											"alpha": 1.5707963267948966,
 											"distance": 30,
@@ -20976,8 +20976,8 @@
 											"visible": false,
 											"font": "Arial;13;0",
 											"parentStyle": false,
-											"left": 628,
-											"top": 555,
+											"left": 634,
+											"top": 558,
 											"height": 13,
 											"alpha": -1.5707963267948966,
 											"distance": 15,
