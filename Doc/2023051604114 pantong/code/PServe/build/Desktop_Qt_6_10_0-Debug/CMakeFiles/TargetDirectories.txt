@@ -1,0 +1,5 @@
+/root/qt/PT/PServe/build/Desktop_Qt_6_10_0-Debug/CMakeFiles/__cmake_cxx23.dir
+/root/qt/PT/PServe/build/Desktop_Qt_6_10_0-Debug/CMakeFiles/__cmake_cxx26.dir
+/root/qt/PT/PServe/build/Desktop_Qt_6_10_0-Debug/CMakeFiles/PServe.dir
+/root/qt/PT/PServe/build/Desktop_Qt_6_10_0-Debug/CMakeFiles/edit_cache.dir
+/root/qt/PT/PServe/build/Desktop_Qt_6_10_0-Debug/CMakeFiles/rebuild_cache.dir

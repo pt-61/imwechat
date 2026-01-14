@@ -1,0 +1,25 @@
+ninja_dyndep_version = 1.0
+build CMakeFiles/PServe.dir/main.cpp.o: dyndep
+
+build CMakeFiles/PServe.dir/cserver.cpp.o: dyndep
+
+build CMakeFiles/PServe.dir/httpconnection.cpp.o: dyndep
+
+build CMakeFiles/PServe.dir/UserServerControl.cpp.o: dyndep
+
+build CMakeFiles/PServe.dir/verifygrpcclient.cpp.o: dyndep
+
+build CMakeFiles/PServe.dir/asioioservicepool.cpp.o: dyndep
+
+build CMakeFiles/PServe.dir/redismgr.cpp.o: dyndep
+
+build CMakeFiles/PServe.dir/userrepository.cpp.o: dyndep
+
+build CMakeFiles/PServe.dir/user.cpp.o: dyndep
+
+build CMakeFiles/PServe.dir/tcpchatsession.cpp.o: dyndep
+
+build CMakeFiles/PServe.dir/message.grpc.pb.cc.o: dyndep
+
+build CMakeFiles/PServe.dir/message.pb.cc.o: dyndep
+

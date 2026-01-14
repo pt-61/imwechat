@@ -1,0 +1,93 @@
+{
+	"bmi-installation" : null,
+	"compiler-frontend-variant" : "GNU",
+	"compiler-id" : "Clang",
+	"compiler-simulate-id" : "",
+	"config" : "Debug",
+	"cxx-modules" : {},
+	"database-info" : null,
+	"dir-cur-bld" : "/root/qt/PT/PServe/build/Desktop_Qt_6_10_0-Debug",
+	"dir-cur-src" : "/root/qt/PT/PServe",
+	"dir-top-bld" : "/root/qt/PT/PServe/build/Desktop_Qt_6_10_0-Debug",
+	"dir-top-src" : "/root/qt/PT/PServe",
+	"exports" : [],
+	"forward-modules-from-target-dirs" : [],
+	"include-dirs" : 
+	[
+		"/root/qt/PT/PServe",
+		"/usr/include/hiredis",
+		"/usr/include/mysql",
+		"/opt/Qt/6.10.0/gcc_64/include/QtCore",
+		"/opt/Qt/6.10.0/gcc_64/include",
+		"/opt/Qt/6.10.0/gcc_64/mkspecs/linux-g++"
+	],
+	"language" : "CXX",
+	"linked-target-dirs" : 
+	[
+		"/root/qt/PT/PServe/build/Desktop_Qt_6_10_0-Debug/CMakeFiles/__cmake_cxx23.dir"
+	],
+	"module-dir" : "/root/qt/PT/PServe/build/Desktop_Qt_6_10_0-Debug/CMakeFiles/PServe.dir",
+	"sources" : 
+	{
+		"CMakeFiles/PServe.dir/UserServerControl.cpp.o" : 
+		{
+			"language" : "CXX",
+			"source" : "/root/qt/PT/PServe/UserServerControl.cpp"
+		},
+		"CMakeFiles/PServe.dir/asioioservicepool.cpp.o" : 
+		{
+			"language" : "CXX",
+			"source" : "/root/qt/PT/PServe/asioioservicepool.cpp"
+		},
+		"CMakeFiles/PServe.dir/cserver.cpp.o" : 
+		{
+			"language" : "CXX",
+			"source" : "/root/qt/PT/PServe/cserver.cpp"
+		},
+		"CMakeFiles/PServe.dir/httpconnection.cpp.o" : 
+		{
+			"language" : "CXX",
+			"source" : "/root/qt/PT/PServe/httpconnection.cpp"
+		},
+		"CMakeFiles/PServe.dir/main.cpp.o" : 
+		{
+			"language" : "CXX",
+			"source" : "/root/qt/PT/PServe/main.cpp"
+		},
+		"CMakeFiles/PServe.dir/message.grpc.pb.cc.o" : 
+		{
+			"language" : "CXX",
+			"source" : "/root/qt/PT/PServe/message.grpc.pb.cc"
+		},
+		"CMakeFiles/PServe.dir/message.pb.cc.o" : 
+		{
+			"language" : "CXX",
+			"source" : "/root/qt/PT/PServe/message.pb.cc"
+		},
+		"CMakeFiles/PServe.dir/redismgr.cpp.o" : 
+		{
+			"language" : "CXX",
+			"source" : "/root/qt/PT/PServe/redismgr.cpp"
+		},
+		"CMakeFiles/PServe.dir/tcpchatsession.cpp.o" : 
+		{
+			"language" : "CXX",
+			"source" : "/root/qt/PT/PServe/tcpchatsession.cpp"
+		},
+		"CMakeFiles/PServe.dir/user.cpp.o" : 
+		{
+			"language" : "CXX",
+			"source" : "/root/qt/PT/PServe/user.cpp"
+		},
+		"CMakeFiles/PServe.dir/userrepository.cpp.o" : 
+		{
+			"language" : "CXX",
+			"source" : "/root/qt/PT/PServe/userrepository.cpp"
+		},
+		"CMakeFiles/PServe.dir/verifygrpcclient.cpp.o" : 
+		{
+			"language" : "CXX",
+			"source" : "/root/qt/PT/PServe/verifygrpcclient.cpp"
+		}
+	}
+}

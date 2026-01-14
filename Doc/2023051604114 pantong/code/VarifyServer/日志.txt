@@ -1,0 +1,56 @@
+node.js验证服务器
+（1）config.js与config.json
+json用于保存邮箱数据
+js用于解析json拿来给其他文件用
+
+（2）email.js（发送方）
+发邮箱的文件。引用（require）nodemailer与config
+设置邮箱的地址
+let transport = nodemailer.createTransport
+设置发送邮箱的函数sendmail（mialoption）邮箱参数
+使用promise返回成功与失败
+使用邮差transport的sendmail发送
+
+（3）server.js
+// 1. 引入路径工具（找文件用的，比如找message.proto文件）
+const path =require('path')
+
+// 2. 引入gRPC工具（用来启动服务，让别人能找到咱们）
+const grpc=require('@grpc/grpc-js')
+
+// 3. 引入proto加载工具（解析服务规则的，比如别人该怎么给咱们发请求）
+const protoLoader =require('@grpc/proto-loader')
+
+// 4. 找到message.proto文件（这个文件定义了“别人该怎么跟咱们沟通”，比如要传邮箱过来）
+const PROTO_PATH=path.join(__dirname,'message.proto')
+
+// 5. 解析proto文件，变成代码能懂的规则
+const packageDefinition =protoLoader.loadSync(PROTO_PATH,{keepCase:true,longs:String,enum:String,defaults:true,oneofs:true})
+const protoDescriptor=grpc.loadPackageDefinition(packageDefinition)
+const message_proto=protoDescriptor.message
+
+定义生成验证码和发送邮箱的函数
+（1）填写mailoptions参数
+（2）调用email.js的sendemail
+（3）使用回复callback
+
+在main函数里
+    //第一步：创建服务器
+var server = new grpc.Server()
+
+    // 第二步：给小店加“业务”——别人要“获取验证码”，就执行GetVarifyCode方法
+    server.addService(message_proto.VarifyService.service, { GetVarifyCode: GetVarifyCode })
+
+    // 第三步：绑定地址和端口（告诉别人咱们的小店在“0.0.0.0:50051”这个位置）
+    server.bindAsync('0.0.0.0:50051', grpc.ServerCredentials.createInsecure(), () => {
+        server.start() // 启动小店（虽然有警告，但不影响用）
+        console.log('grpc server started') // 打印“小店开张了”
+    })
+
+
+    启动服务器
+    main()
+
+（4）proto.js
+
+
