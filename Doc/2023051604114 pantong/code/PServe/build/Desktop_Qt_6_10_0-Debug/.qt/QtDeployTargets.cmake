@@ -1,6 +1,0 @@
-set(__QT_DEPLOY_TARGET___cmake_cxx23_FILE /root/qt/PT/PServe/build/Desktop_Qt_6_10_0-Debug/lib__cmake_cxx23.a)
-set(__QT_DEPLOY_TARGET___cmake_cxx23_TYPE STATIC_LIBRARY)
-set(__QT_DEPLOY_TARGET___cmake_cxx26_FILE /root/qt/PT/PServe/build/Desktop_Qt_6_10_0-Debug/lib__cmake_cxx26.a)
-set(__QT_DEPLOY_TARGET___cmake_cxx26_TYPE STATIC_LIBRARY)
-set(__QT_DEPLOY_TARGET_PServe_FILE /root/qt/PT/PServe/build/Desktop_Qt_6_10_0-Debug/bin/pserve)
-set(__QT_DEPLOY_TARGET_PServe_TYPE EXECUTABLE)

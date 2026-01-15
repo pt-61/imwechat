@@ -1,7 +1,5 @@
 #include "UserServerControl.h"
 #include "httpconnection.h"
-#include"verifygrpcclient.h"
-#include"redismgr.h"
 #include"user.h"
 #include"userrepository.h"
 
@@ -21,48 +19,6 @@ bool UserServerControl::HandlePost(std::string path, std::shared_ptr<HttpConnect
 
 UserServerControl::UserServerControl()
 {
-    //验证
-    RegPost("/get_varifycode", [](std::shared_ptr<HttpConnection> connection) {
-        //读出客户端的写的内容
-        auto body_str = boost::beast::buffers_to_string(connection->_request.body().data());
-        std::cout << "recive body is" << body_str << std::endl;
-        //告诉对方传输格式
-        connection->_response.set(http::field::content_type, "text/json");
-
-        Json::Value root;//回复客户的值
-        Json::Reader reader;//解析器
-        Json::Value src_root;//存放值
-
-        //解析对面的值
-        bool parse_success = reader.parse(body_str, src_root);
-        if (!parse_success) {
-            std::cout << "Failed to parse Json Data" << std::endl;
-            root["error"] = ErrorCodes::Error_Json;
-            std::string jsonstr = root.toStyledString();//转化json字符
-            beast::ostream(connection->_response.body()) << jsonstr;
-            return true;
-        }
-        if (!src_root.isMember("email")) {//是否有“邮箱”字段
-            std::cout << "Failed to parse Json Data" << std::endl;
-            root["error"] = ErrorCodes::Error_Json;
-            std::string jsonstr = root.toStyledString();
-            beast::ostream(connection->_response.body()) << jsonstr;
-            return true;
-        }
-
-        //取出邮箱的值
-        auto email = src_root["email"].asString();
-        //调用验证码函数
-       VerifyGrpcClient::GetInstance()->GetVarifyCode(email);
-
-        std::cout << "email is" << email<<std::endl;
-        root["error"] = 0;
-        root["email"] = src_root["email"];
-        std::string jsonstr = root.toStyledString();
-        beast::ostream(connection->_response.body()) << jsonstr;
-        return true;
-
-    });
 
     //注册
     RegPost("/user_register", [](std::shared_ptr<HttpConnection> connection) {
@@ -80,41 +36,7 @@ UserServerControl::UserServerControl()
             beast::ostream(connection->_response.body()) << jsonstr;
             return true;
         }
-        if (!src_root.isMember("email") || !src_root.isMember("varifycode")) {
-            std::cout << "缺少邮箱或验证码字段！" << std::endl;
-            root["error"] = ErrorCodes::Error_Json;
-            beast::ostream(connection->_response.body()) << root.toStyledString();
-            return true;
-        }
-        //先查找redis中email对应的验证码是否合理
-        std::string  varify_code;
-        bool b_get_varify = RedisMgr::GetInstance()->Get(src_root["email"].asString(), varify_code);
-        if (!b_get_varify) {
-            std::cout << " get varify code expired" << std::endl;
-            root["error"] = ErrorCodes::VarifyExpired;
-            std::string jsonstr = root.toStyledString();
-            beast::ostream(connection->_response.body()) << jsonstr;
-            return true;
-        }
-        std::cout << varify_code;
 
-        if (varify_code != src_root["varifycode"].asString()) {
-            std::cout << " varify code error" << std::endl;
-            root["error"] = ErrorCodes::VarifyCodeErr;
-            std::string jsonstr = root.toStyledString();
-            beast::ostream(connection->_response.body()) << jsonstr;
-            return true;
-        }
-
-        //访问redis查找
-        bool b_usr_exist = RedisMgr::GetInstance()->ExistsKey(src_root["username"].asString());
-        if (b_usr_exist) {
-            std::cout << " user exist" << std::endl;
-            root["error"] = ErrorCodes::UserExist;
-            std::string jsonstr = root.toStyledString();
-            beast::ostream(connection->_response.body()) << jsonstr;
-            return true;
-        }
 
         //查找数据库判断用户是否存在
 

@@ -17,21 +17,13 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 # 1. 依赖库配置部分
 # ============================
 
-# 设置 gRPC 和 Protobuf 的查找路径（解决多版本冲突）
-set(Protobuf_ROOT "/usr/local" CACHE PATH "Protobuf 安装路径" FORCE)
-set(gRPC_ROOT "/usr/local" CACHE PATH "gRPC 安装路径" FORCE)
+
 set(MySQLPP_INCLUDE_DIR "/usr/include")
 set(MySQLPP_LIBRARY "mysqlpp")
 # 查找必需的系统库
 find_package(Threads REQUIRED)
 
-# 查找 Protobuf（用于序列化）
-find_package(Protobuf CONFIG REQUIRED)
-message(STATUS "Found Protobuf ${Protobuf_VERSION}")
 
-# 查找 gRPC（用于 RPC 通信）
-find_package(gRPC CONFIG REQUIRED)
-message(STATUS "Found gRPC ${gRPC_VERSION}")
 
 # 查找 JSONCPP（用于 JSON 处理）
 find_package(PkgConfig REQUIRED)
@@ -48,8 +40,6 @@ find_package(Qt6 REQUIRED COMPONENTS Core )
 
 # 查找MySQL C客户端库
 find_package(PkgConfig REQUIRED)
-
-# 查找MySQL++库
 
 
 # 查找MySQL/MariaDB C客户端库
@@ -91,11 +81,7 @@ add_executable(PServe
     httpconnection.h httpconnection.cpp
     UserServerControl.h UserServerControl.cpp
     Singleton.h
-    verifygrpcclient.h verifygrpcclient.cpp
-    message.proto
     asioioservicepool.h asioioservicepool.cpp
-    redismgr.h redismgr.cpp
-    message.pb.h message.grpc.pb.h
     userrepository.h userrepository.cpp
     user.h user.cpp
     tcpchatsession.h tcpchatsession.cpp
@@ -130,8 +116,6 @@ target_include_directories(PServe PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}  # 当前项目目录
     ${JSONCPP_INCLUDE_DIRS}      # JSONCPP 头文件
     ${HIREDIS_INCLUDE_DIRS}      # 新增：hiredis 头文件目录
-    # ${Protobuf_INCLUDE_DIRS}   # 如果需要直接使用 Protobuf 头文件
-    # ${gRPC_INCLUDE_DIRS}       # 如果需要直接使用 gRPC 头文件
     ${MYSQL_INCLUDE_DIR}
     ${MySQLPP_INCLUDE_DIRS}
 
@@ -152,10 +136,7 @@ set(_GRPC_GRPCPP gRPC::grpc++)
 
 # 链接所有必需的库
 target_link_libraries(PServe PRIVATE
-    # gRPC 相关库
-    ${_REFLECTION}        # gRPC 反射支持
-    ${_GRPC_GRPCPP}       # gRPC C++ 核心库
-    ${_PROTOBUF_LIBPROTOBUF}  # Protobuf 库
+
 
     # Boost 库
     Boost::filesystem     # 文件系统操作
@@ -166,7 +147,7 @@ target_link_libraries(PServe PRIVATE
 
     ${HIREDIS_LIBRARIES}
     ${MySQLPP_LIBRARIES}
-       ${MYSQL_LIBRARY}
+    ${MYSQL_LIBRARY}
     # 系统库
     Threads::Threads      # 线程支持
     Qt6::Core
@@ -214,120 +195,10 @@ set_target_properties(PServe PROPERTIES
 message(STATUS "项目配置完成:")
 message(STATUS "  - C++ 标准: ${CMAKE_CXX_STANDARD}")
 message(STATUS "  - 编译器: ${CMAKE_CXX_COMPILER_ID} ${CMAKE_CXX_COMPILER_VERSION}")
-message(STATUS "  - Protobuf 版本: ${Protobuf_VERSION}")
-message(STATUS "  - gRPC 版本: ${gRPC_VERSION}")
 message(STATUS "  - Boost 版本: ${Boost_VERSION}")
 message(STATUS "  - JSONCPP 库: ${JSONCPP_LIBRARIES}")
 message(STATUS "  - hiredis 库: ${HIREDIS_LIBRARIES}")  # 新增：打印 hiredis 库信息
-# ============================
-# 8. Protobuf/gRPC 代码处理
-# ============================
 
-# 选项：是否自动生成 proto 代码
-option(AUTO_GENERATE_PROTO "自动生成 Protobuf/gRPC 代码" OFF)
-
-if(AUTO_GENERATE_PROTO)
-    # 方式A：尝试自动生成（可能需要额外配置）
-    message(STATUS "尝试自动生成 proto 代码...")
-
-    # 查找 proto 文件
-    file(GLOB PROTO_FILES ${CMAKE_CURRENT_SOURCE_DIR}/*.proto)
-
-    if(PROTO_FILES)
-        message(STATUS "找到 Proto 文件: ${PROTO_FILES}")
-
-        # 查找 protoc 和插件
-        find_program(PROTOC_EXECUTABLE protoc REQUIRED)
-        find_program(GRPC_CPP_PLUGIN grpc_cpp_plugin
-            HINTS "/usr/local/bin" "/usr/bin" REQUIRED)
-
-        foreach(PROTO_FILE ${PROTO_FILES})
-            get_filename_component(PROTO_NAME ${PROTO_FILE} NAME_WE)
-
-            # 设置输出文件
-            set(PB_CC "${CMAKE_CURRENT_SOURCE_DIR}/${PROTO_NAME}.pb.cc")
-            set(PB_H "${CMAKE_CURRENT_SOURCE_DIR}/${PROTO_NAME}.pb.h")
-            set(GRPC_CC "${CMAKE_CURRENT_SOURCE_DIR}/${PROTO_NAME}.grpc.pb.cc")
-            set(GRPC_H "${CMAKE_CURRENT_SOURCE_DIR}/${PROTO_NAME}.grpc.pb.h")
-
-            # 生成 protobuf 代码
-            add_custom_command(
-                OUTPUT ${PB_CC} ${PB_H}
-                COMMAND ${PROTOC_EXECUTABLE}
-                ARGS --cpp_out=${CMAKE_CURRENT_SOURCE_DIR}
-                     -I ${CMAKE_CURRENT_SOURCE_DIR}
-                     ${PROTO_FILE}
-                DEPENDS ${PROTO_FILE}
-                COMMENT "生成 ${PROTO_NAME}.pb.{cc,h}"
-                VERBATIM
-            )
-
-            # 生成 gRPC 代码
-            add_custom_command(
-                OUTPUT ${GRPC_CC} ${GRPC_H}
-                COMMAND ${PROTOC_EXECUTABLE}
-                ARGS --grpc_out=${CMAKE_CURRENT_SOURCE_DIR}
-                     --plugin=protoc-gen-grpc=${GRPC_CPP_PLUGIN}
-                     -I ${CMAKE_CURRENT_SOURCE_DIR}
-                     ${PROTO_FILE}
-                DEPENDS ${PROTO_FILE}
-                COMMENT "生成 ${PROTO_NAME}.grpc.pb.{cc,h}"
-                VERBATIM
-            )
-
-            # 添加到源文件
-            target_sources(PServe PRIVATE ${PB_CC} ${GRPC_CC})
-
-        endforeach()
-
-        # 包含当前目录
-        target_include_directories(PServe PRIVATE
-            ${CMAKE_CURRENT_SOURCE_DIR}
-        )
-
-    endif()
-
-else()
-    # 方式B：手动添加已生成的文件（推荐）
-    message(STATUS "使用手动生成的 proto 代码")
-
-    # 查找已存在的 proto 代码文件
-    file(GLOB PB_CC_FILES "${CMAKE_CURRENT_SOURCE_DIR}/*.pb.cc")
-    file(GLOB GRPC_CC_FILES "${CMAKE_CURRENT_SOURCE_DIR}/*.grpc.pb.cc")
-    file(GLOB PB_H_FILES "${CMAKE_CURRENT_SOURCE_DIR}/*.pb.h")
-    file(GLOB GRPC_H_FILES "${CMAKE_CURRENT_SOURCE_DIR}/*.grpc.pb.h")
-    file(GLOB PROTO_FILES "${CMAKE_CURRENT_SOURCE_DIR}/*.proto")
-
-    # 显示找到的文件
-    if(PROTO_FILES)
-        message(STATUS "找到 .proto 文件: ${PROTO_FILES}")
-    endif()
-
-    if(PB_CC_FILES)
-        message(STATUS "找到 .pb.cc 文件: ${PB_CC_FILES}")
-    endif()
-
-    if(GRPC_CC_FILES)
-        message(STATUS "找到 .grpc.pb.cc 文件: ${GRPC_CC_FILES}")
-    endif()
-
-    # 将找到的源文件添加到目标
-    if(PB_CC_FILES OR GRPC_CC_FILES)
-        target_sources(PServe PRIVATE
-            ${PB_CC_FILES}
-            ${GRPC_CC_FILES}
-        )
-        message(STATUS "已将 proto 源文件添加到目标")
-    else()
-        message(STATUS "未找到 proto 源文件，如需使用 gRPC，请先生成代码")
-    endif()
-
-    # 确保包含目录
-    target_include_directories(PServe PRIVATE
-        ${CMAKE_CURRENT_SOURCE_DIR}
-    )
-
-endif()
 # ============================
 # 9. 构建后检查
 # ============================
