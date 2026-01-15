@@ -28,4 +28,4 @@ enum ErrorCodes {
     ERR_NETWORK = 2,
 };
 
-extern QString gate_url_prefix;
+

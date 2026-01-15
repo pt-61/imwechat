@@ -23,7 +23,7 @@ void UserControl::on_sure_btn_cilcked(QString username,
     json_obj["email"] = email;
     json_obj["password"] = password;
     json_obj["confirm"] = confirm;
-    Httpmgr::GetInstance()->PostHttpReq(QUrl(gate_url_prefix + "/user_register"),
+    Httpmgr::GetInstance()->PostHttpReq(QUrl("http://localhost:8080/user_register"),
                                         json_obj,
                                         ReqId::ID_REG_USER,
                                         Moudles::REGISTERMOD);
@@ -33,7 +33,7 @@ void UserControl::on_sure_login_cilcked(QString socialname, QString password) {
     QJsonObject json_obj;
     json_obj["socialname"] = socialname;
     json_obj["password"] = password;
-    Httpmgr::GetInstance()->PostHttpReq(QUrl(gate_url_prefix + "/user_login"),
+    Httpmgr::GetInstance()->PostHttpReq(QUrl("http://localhost:8080/user_login"),
                                         json_obj,
                                         ReqId::ID_LOGIN_USER ,
                                         Moudles::LOGINMOD);
@@ -69,6 +69,9 @@ void UserControl::initHttpHandlers()
         int error = jsonObj["error"].toInt();
         if (error != ErrorCodes::SUCCESS) { return; }
         qDebug() << " 登陆成功 ";
+        QString username = jsonObj["username"].toString();
+        QString socialname = jsonObj["socialname"].toString();
+        qDebug() << username << socialname;
         emit loginSuccess();
     });
 

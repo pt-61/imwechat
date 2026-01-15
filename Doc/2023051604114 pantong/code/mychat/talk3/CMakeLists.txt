@@ -29,7 +29,7 @@ qt_add_qml_module(apptalk3
     SOURCES global.h global.cpp
     SOURCES singleton.h
     SOURCES httpmgr.h httpmgr.cpp
-    RESOURCES config.ini
+    RESOURCES
     SOURCES tcpclient.h tcpclient.cpp
     QML_FILES TcpClient.qml
 )
@@ -53,23 +53,7 @@ target_link_libraries(apptalk3
         Qt6::Network
 )
 
-set(CONFIG_FILE "${CMAKE_CURRENT_SOURCE_DIR}/config.ini")
 
-# 仅当`config.ini`存在时执行拷贝（避免构建失败，友好提示）
-if(EXISTS "${CONFIG_FILE}")
-    add_custom_command(
-        TARGET apptalk3
-        POST_BUILD
-        # 使用CMake内置命令（跨平台兼容，无Shell解析歧义，比直接cp更稳定）
-        COMMAND ${CMAKE_COMMAND} -E copy_if_different
-            "${CONFIG_FILE}"
-            "$<TARGET_FILE_DIR:apptalk3>/config.ini"
-        # 移除COMMENT，彻底规避解析风险（如需保留，确保无隐形字符+手动输入）
-        # COMMENT "Copying config.ini to executable directory"
-    )
-else()
-    message(WARNING "config.ini not found at ${CONFIG_FILE} - please create the configuration file")
-endif()
 
 set_target_properties(apptalk3 PROPERTIES
     AUTORCC TRUE                              #  set(CMAKE_AUTORCC ON)

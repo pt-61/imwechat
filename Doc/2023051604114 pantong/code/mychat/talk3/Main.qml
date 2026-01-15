@@ -8,7 +8,7 @@ ApplicationWindow {
     visible: true
     title: qsTr("Hello World")
 
-   Logdialog{
+  Logdialog{
        id:log1
        anchors.centerIn: parent
    }
@@ -19,23 +19,25 @@ ApplicationWindow {
         visible: false
    }
 
-  // Loader {
-    //       source: "TcpClient.qml"
-      //     anchors.fill: parent
-       //}
+
+  Loader{
+     source: "TcpClient.qml"
+     anchors.fill: parent
+     visible: false
+  }
 
    Connections{
        target: log1
        function onZucebutton(){
            log1.visible=false
-           re1.visible=true
+          re1.visible=true
         }
    }
    Connections{
        target:register1
          function onRegisterSuccess(){
-            log1.visible=true
-            re1.visible=false
+            log1.visible = true;
+              re1.visible = false;
          }
    }
 }

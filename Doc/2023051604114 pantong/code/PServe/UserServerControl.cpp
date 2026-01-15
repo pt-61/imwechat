@@ -89,6 +89,8 @@ UserServerControl::UserServerControl()
         }
         User *user = new User(socialname, username, password);
         root["error"] = 0;
+         root ["username"]= username;
+         root ["socialname"]= src_root["socialname"].asString();
         std::string jsonstr = root.toStyledString();
         beast::ostream(connection->_response.body()) << jsonstr;
         return true;
