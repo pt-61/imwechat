@@ -18,7 +18,7 @@ bool User::RegisterUser(const User &user)
     if (isuser) {
         isuser = UserRepository::GetInstance()->SaveUser(user);
         if (isuser) {
-            std::cout << "注册成功" << std::endl;
+            std::cout << "注册成功" << user.uid_ << std::endl;
             return true;
         }
     }
@@ -30,4 +30,9 @@ std::string User::FindUsername(std::string SocialName)
 {
     std::string username = UserRepository::GetInstance()->Username(SocialName);
     return username;
+}
+
+std::string User::FindUid( std::string SocialName) {
+    std::string uid = UserRepository::GetInstance()->Uid(SocialName);
+    return uid;
 }

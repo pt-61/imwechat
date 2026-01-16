@@ -43,8 +43,8 @@ UserServerControl::UserServerControl()
         std::string socialname = src_root["socialname"].asString();
         std::string username = src_root["username"].asString();
         std::string password = src_root["password"].asString();
-
-       User user(socialname, username, password);
+        std::string uid = src_root["uid"].asString();
+       User user(socialname, username, password,uid);
         bool isExist = user.RegisterUser(user);
         if (isExist) { std::cout << "注册成功" << std::endl;
         }
@@ -53,6 +53,7 @@ UserServerControl::UserServerControl()
         root["email"] = src_root["email"];
         root ["username"]= src_root["username"].asString();
         root["confirm"] = src_root["confirm"].asString();
+        root["uid"]=src_root["uid"].asString();
         std::string jsonstr = root.toStyledString();
         beast::ostream(connection->_response.body()) << jsonstr;
         return true;
@@ -87,10 +88,13 @@ UserServerControl::UserServerControl()
             std::cout << "登陆失败" << std::endl;
             return true;
         }
-        User *user = new User(socialname, username, password);
+        std::string uid = empty.FindUid(socialname);
+        std::cout<<"yes"<<uid<<std::endl;
+        //User *user = new User(socialname, username, password,uid);
         root["error"] = 0;
          root ["username"]= username;
          root ["socialname"]= src_root["socialname"].asString();
+         root["uid"]=uid;
         std::string jsonstr = root.toStyledString();
         beast::ostream(connection->_response.body()) << jsonstr;
         return true;
