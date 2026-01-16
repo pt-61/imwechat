@@ -1,6 +1,7 @@
 #pragma once
 #include <QObject>
 #include"global.h"
+
 class UserControl : public QObject
 {
     Q_OBJECT
@@ -21,7 +22,7 @@ private slots:
 signals:
     // 注册成功信号（可以带参数，比如提示文字）
     void registerSuccess();
-    void loginSuccess();
+    void loginSuccess(QVariantMap vm);
 private:
     void initHttpHandlers();
     QMap<ReqId, std::function<void(const QJsonObject &)>> _handlers;

@@ -15,6 +15,7 @@ public:
      bool IsValidUser(const std::string SocialName,const std::string password);
     bool Remove(const User &user);
     bool IsUser(const User &user);
+    std::string Uid(const std::string SocialName);
     std::string Username(const std::string SocialName);
 private:
     UserRepository();
