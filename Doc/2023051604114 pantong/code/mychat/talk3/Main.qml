@@ -11,7 +11,7 @@ ApplicationWindow {
   Logdialog{
        id:log1
        anchors.centerIn: parent
-   }
+}
 
    Register{
         id:re1
@@ -19,13 +19,13 @@ ApplicationWindow {
         visible: false
    }
 
-
+/*
   Loader{
      source: "TcpClient.qml"
      anchors.fill: parent
-     visible: false
+     visible: true
   }
-
+*/
    Connections{
        target: log1
        function onZucebutton(){
@@ -40,4 +40,5 @@ ApplicationWindow {
               re1.visible = false;
          }
    }
+
 }

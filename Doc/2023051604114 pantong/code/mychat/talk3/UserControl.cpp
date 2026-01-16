@@ -1,6 +1,6 @@
  #include "UserControl.h"
 #include"httpmgr.h"
-
+#include<qdatetime.h>
 
 UserControl::UserControl(QObject *parent)
     : QObject(parent)
@@ -23,6 +23,8 @@ void UserControl::on_sure_btn_cilcked(QString username,
     json_obj["email"] = email;
     json_obj["password"] = password;
     json_obj["confirm"] = confirm;
+    QString uid = "u" + QString::number(QDateTime::currentMSecsSinceEpoch());
+    json_obj["uid"] = uid;
     Httpmgr::GetInstance()->PostHttpReq(QUrl("http://localhost:8080/user_register"),
                                         json_obj,
                                         ReqId::ID_REG_USER,
@@ -71,8 +73,11 @@ void UserControl::initHttpHandlers()
         qDebug() << " 登陆成功 ";
         QString username = jsonObj["username"].toString();
         QString socialname = jsonObj["socialname"].toString();
-        qDebug() << username << socialname;
-        emit loginSuccess();
+        QString uid = jsonObj["uid"].toString();
+        qDebug() << username << socialname<<uid;
+
+        QVariantMap vm{jsonObj.toVariantMap()};
+        emit loginSuccess(vm);
     });
 
 }

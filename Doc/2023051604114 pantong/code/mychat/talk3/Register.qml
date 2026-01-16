@@ -2,12 +2,21 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
 
+
+
 Rectangle {
     height: 500
     width: 500
     color: "#f5f5f5"
 
-
+    Connections{
+        target: register1
+        function onLoginSuccess(vm){
+            const username= vm.username
+            const socialname=vm.socialname
+            console.log(username,socialname)
+        }
+    }
     Rectangle {
         anchors.top: parent.top
         anchors.topMargin: 20
@@ -196,6 +205,7 @@ Rectangle {
                     error.text = qsTr("注册成功！")
                     error.color = "#e8f5e9"
                     error.visible = true
+
                 }
             }
 
