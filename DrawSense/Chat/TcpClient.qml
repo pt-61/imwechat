@@ -3,9 +3,7 @@ import QtQuick.Controls
 import QtQuick.Layouts
 
 Item {
-    width: 400
-    height: 500
-
+    anchors.fill: parent
 
     property string serverHost: "127.0.0.1"
     property int serverPort: 8888

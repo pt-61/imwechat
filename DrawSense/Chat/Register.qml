@@ -2,9 +2,9 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
 
-Rectangle {
-    height: 500
-    width: 500
+Window {
+    height: 400
+    width: 600
     color: "#f5f5f5"
 
 

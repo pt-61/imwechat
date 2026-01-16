@@ -84,13 +84,17 @@ Window {
         }
     }
 
+    // C.Register {
+    //     visible: true
+    // }
+
     property string lastPage: ""
     onCurPageChanged: {
         lastPage = curPage
         switch(curPage){
             case ("user"): pageLoader.setSource("./User/User.qml");break;
             case ("community"): pageLoader.setSource("./Post/PostList.qml");break;
-            // case ("chat"): pageLoader.setSource();break;
+            case ("chat"): pageLoader.setSource("./Chat/TcpClient.qml");break;
         }
     }
 }
